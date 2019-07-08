@@ -9,7 +9,7 @@ public class Book {
 	
     private final int id;
     private final String name;
-    private final String author;
-    private final String genre;
+    private final int authorId;
+    private final int genreId;
 
 }

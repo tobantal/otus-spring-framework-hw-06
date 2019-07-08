@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS genres;
 CREATE TABLE genres 
   ( 
      id    INT(11) NOT NULL auto_increment, 
-     genre VARCHAR(60), 
+     name VARCHAR(60), 
      PRIMARY KEY(id) 
   ); 
 
@@ -20,7 +20,7 @@ DROP TABLE IF EXISTS authors;
 CREATE TABLE authors 
   ( 
      id     INT(11) NOT NULL auto_increment, 
-     author VARCHAR(60), 
+     name VARCHAR(60), 
      PRIMARY KEY(id) 
   ); 
 

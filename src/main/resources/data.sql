@@ -5,13 +5,13 @@ VALUES      (1,
              'masha'); 
 
 INSERT INTO genres 
-            (genre) 
+            (name) 
 VALUES      ('comics'), 
             ('horrors'), 
             ('fantasy'); 
 
 INSERT INTO authors 
-            (author) 
+            (name) 
 VALUES      ('Ivanov'), 
             ('Petrov'), 
             ('Sidorov'); 
