@@ -4,8 +4,9 @@ import ru.otus.spring.domain.Person;
 
 import java.util.List;
 
-public interface PersonDao {
+public interface PersonDao extends Dao<Person> {
 	
+	/*
 	int count();
 	
 	void insert(Person person);
@@ -15,5 +16,6 @@ public interface PersonDao {
 	List<Person> getAll();
 	
 	void deleteById(int id);
+	*/
 
 }

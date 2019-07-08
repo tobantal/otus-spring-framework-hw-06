@@ -5,16 +5,6 @@ import ru.otus.spring.domain.Person;
 
 import java.util.List;
 
-public interface BookDao {
+public interface BookDao extends Dao<Book> {
 	
-	int count();
-	
-	void insert(Book book);
-	
-	Book getById(int id);
-	
-	List<Book> getAll();
-	
-	void deleteById(int id);
-
 }

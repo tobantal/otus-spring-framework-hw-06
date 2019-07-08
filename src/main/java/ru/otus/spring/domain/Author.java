@@ -5,11 +5,9 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class Book {
-	
+public class Author {
+
     private final int id;
     private final String name;
-    private final String author;
-    private final String genre;
 
 }

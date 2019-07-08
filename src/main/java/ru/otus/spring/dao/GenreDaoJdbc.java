@@ -6,7 +6,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
+import ru.otus.spring.domain.Genre;
 import ru.otus.spring.domain.Person;
+import ru.otus.spring.mapper.GenreMapper;
 import ru.otus.spring.mapper.PersonMapper;
 
 import java.sql.ResultSet;
@@ -19,43 +21,45 @@ import java.util.Map;
 //@SuppressWarnings({"SqlNoDataSourceInspection", "ConstantConditions", "SqlDialectInspection"})
 @Repository
 @RequiredArgsConstructor
-public class PersonDaoJdbc implements PersonDao {
+public class GenreDaoJdbc implements GenreDao {
 
 	private final NamedParameterJdbcOperations jdbc;
-	private final PersonMapper personMapper;
+	private final GenreMapper genreMapper;
 
 	@Override
 	public int count() {
-		return jdbc.getJdbcOperations().queryForObject("select count(*) from persons", Integer.class);
+		return jdbc.getJdbcOperations().queryForObject("select count(*) from genres", Integer.class);
 	}
 
 	@Override
-	public void insert(Person person) {
-		jdbc.getJdbcOperations().update("insert into persons (id, name) values (?, ?)", person.getId(), person.getName());
+	public void insert(Genre genre) {
+		jdbc.getJdbcOperations().update("insert into genres (id, name) values (?, ?)", genre.getId(), genre.getName());
 	}
 
 	@Override
-	public Person getById(int id) {
+	public Genre getById(int id) {
 		final HashMap<String, Object> params = new HashMap<>(1);
 		params.put("id", id);
-		return jdbc.queryForObject("select * from persons where id = :id", params, personMapper);
+		return jdbc.queryForObject("select * from genres where id = :id", params, genreMapper);
 	}
 
 	@Override
-	public List<Person> getAll() {
-		return jdbc.query("select * from persons", personMapper);
+	public List<Genre> getAll() {
+		return jdbc.query("select * from genres", genreMapper);
 	}
 
 	@Override
 	public void deleteById(int id) {
 		final HashMap<String, Object> params = new HashMap<>(1);
 		params.put("id", id);
-		jdbc.update("delete from persons where id = :id", params);
+		jdbc.update("delete from genres where id = :id", params);
 	}
 
 	@Override
-	public Person getByName(String name) {
+	public Genre getByName(String name) {
 		// TODO Auto-generated method stub
-		return null;
+		final HashMap<String, Object> params = new HashMap<>(1);
+		params.put("name", name);
+		return jdbc.queryForObject("select * from genres where name = :name", params, genreMapper);
 	}
 }

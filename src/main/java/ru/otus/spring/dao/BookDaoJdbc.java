@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 import ru.otus.spring.domain.Book;
+import ru.otus.spring.mapper.AuthorMapper;
 import ru.otus.spring.mapper.BookMapper;
+import ru.otus.spring.mapper.GenreMapper;
 
 @Repository
 @RequiredArgsConstructor
@@ -16,6 +18,8 @@ public class BookDaoJdbc implements BookDao {
 
 	private final NamedParameterJdbcOperations jdbc;
 	private final BookMapper bookMapper;
+	//private final AuthorMapper authorMapper;
+	//private final GenreMapper genreMapper;
 
 	@Override
 	public int count() {
@@ -24,6 +28,9 @@ public class BookDaoJdbc implements BookDao {
 
 	@Override
 	public void insert(Book book) {
+		// find or insert into author
+		
+		// find or insert into genre
 		jdbc.getJdbcOperations().update("insert into books (id, name) values (?, ?)", book.getId(), book.getName());
 	}
 
@@ -44,5 +51,13 @@ public class BookDaoJdbc implements BookDao {
 		final HashMap<String, Object> params = new HashMap<>(1);
 		params.put("id", id);
 		jdbc.update("delete from persons where id = :id", params);
+	}
+
+	@Override
+	public Book getByName(String name) {
+		// TODO Auto-generated method stub
+		final HashMap<String, Object> params = new HashMap<>(1);
+		params.put("name", name);
+		return jdbc.queryForObject("select * from books where name = :name", params, bookMapper);
 	}
 }

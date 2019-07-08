@@ -6,9 +6,13 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
 import lombok.RequiredArgsConstructor;
+import ru.otus.spring.dao.AuthorDao;
 import ru.otus.spring.dao.BookDao;
+import ru.otus.spring.dao.GenreDao;
 import ru.otus.spring.dao.PersonDao;
+import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
+import ru.otus.spring.domain.Genre;
 import ru.otus.spring.domain.Person;
 
 @ShellComponent
@@ -16,6 +20,8 @@ import ru.otus.spring.domain.Person;
 public class BookDaoCommands {
 	
 	private final BookDao bookDao;
+	private final AuthorDao authordao;
+	private final GenreDao genreDao;
 	private final ConsoleService consoleService;
 	
 	@ShellMethod("count books")
@@ -24,8 +30,11 @@ public class BookDaoCommands {
 	}
 	
 	@ShellMethod("insert new book")
-	public void put(String id, String name) {
-		Book book = new Book(Integer.parseInt(id), name);	
+	public void put(String id, String name, String author, String genre) {
+		Author a = authordao.getByName(author);
+		Genre g = genreDao.getByName(genre);
+		
+		Book book = new Book(Integer.parseInt(id), name, author, genre);
 		bookDao.insert(book);
 		consoleService.write("book %s has been saved", book.getName());
 	}
