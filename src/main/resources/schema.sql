@@ -1,20 +1,62 @@
-DROP TABLE IF EXISTS PERSONS;
-CREATE TABLE PERSONS(ID INT PRIMARY KEY, NAME VARCHAR(255));
+DROP TABLE IF EXISTS persons; 
 
+CREATE TABLE persons 
+  ( 
+     id   INT PRIMARY KEY, 
+     name VARCHAR(255) 
+  ); 
 
-DROP TABLE IF EXISTS BOOKS;
-CREATE TABLE books (id int(11) not null auto_increment, name varchar(60), primary key(id));
+DROP TABLE IF EXISTS genres; 
 
-DROP TABLE IF EXISTS GENRES;
-CREATE TABLE genres (id int(11) not null auto_increment, genre varchar(60), primary key(id));
+CREATE TABLE genres 
+  ( 
+     id    INT(11) NOT NULL auto_increment, 
+     genre VARCHAR(60), 
+     PRIMARY KEY(id) 
+  ); 
 
-DROP TABLE IF EXISTS AUTHORS;
-CREATE TABLE authors (id int(11) not null auto_increment, author varchar(60), primary key(id));
+DROP TABLE IF EXISTS authors; 
 
-DROP TABLE IF EXISTS BOOKS_GENRES;
-CREATE TABLE BOOKS_GENRES (id int(11) not null auto_increment, book_id int(11), genre_id int(11), primary key(id), FOREIGN KEY (genre_id)
- REFERENCES genres(id) ON DELETE RESTRICT, FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE);
+CREATE TABLE authors 
+  ( 
+     id     INT(11) NOT NULL auto_increment, 
+     author VARCHAR(60), 
+     PRIMARY KEY(id) 
+  ); 
 
-DROP TABLE IF EXISTS BOOKS_AUTHORS;
-CREATE TABLE BOOKS_AUTHORS (id int(11) not null auto_increment, book_id int(11), author_id int(11), primary key(id), FOREIGN KEY (author_id) 
-REFERENCES authors(id) ON DELETE RESTRICT, FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE);
+DROP TABLE IF EXISTS books; 
+
+CREATE TABLE books 
+  ( 
+     id        INT(11) NOT NULL auto_increment, 
+     name      VARCHAR(60), 
+     genre_id  INT(11) NOT NULL, 
+     author_id INT(11) NOT NULL, 
+     PRIMARY KEY(id), 
+     FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE RESTRICT, 
+     FOREIGN KEY (author_id) REFERENCES authors(id) ON DELETE RESTRICT 
+  ); 
+
+DROP TABLE IF EXISTS books_genres; 
+
+CREATE TABLE books_genres 
+  ( 
+     id       INT(11) NOT NULL auto_increment, 
+     book_id  INT(11), 
+     genre_id INT(11), 
+     PRIMARY KEY(id), 
+     FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE RESTRICT, 
+     FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE 
+  ); 
+
+DROP TABLE IF EXISTS books_authors; 
+
+CREATE TABLE books_authors 
+  ( 
+     id        INT(11) NOT NULL auto_increment, 
+     book_id   INT(11), 
+     author_id INT(11), 
+     PRIMARY KEY(id), 
+     FOREIGN KEY (author_id) REFERENCES authors(id) ON DELETE RESTRICT, 
+     FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE 
+  ); 

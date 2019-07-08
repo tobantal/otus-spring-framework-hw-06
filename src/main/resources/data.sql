@@ -1,12 +1,47 @@
-insert into persons (id, `name`) values (1, 'masha');
+INSERT INTO persons 
+            (id, 
+             name) 
+VALUES      (1, 
+             'masha'); 
 
+INSERT INTO genres 
+            (genre) 
+VALUES      ('comics'), 
+            ('horrors'), 
+            ('fantasy'); 
 
-insert into genres (genre) values ('Комиксы'), ('Ужасы'), ('Фантастика');
+INSERT INTO authors 
+            (author) 
+VALUES      ('Ivanov'), 
+            ('Petrov'), 
+            ('Sidorov'); 
 
-insert into authors (author) values ('Иванов'), ('Петров'), ('Сидоров');
+INSERT INTO books 
+            (genre_id, 
+             author_id, 
+             name) 
+VALUES      (1, 
+             2, 
+             'Desert rose'), 
+            (2, 
+             1, 
+             'Fly N2'), 
+            (3, 
+             3, 
+             'Young Pirate'); 
 
-insert into books (name) values ('Роза ветров'), ('Полет №2'), ('Пират');
+INSERT INTO books_genres 
+            (book_id, 
+             genre_id) 
+VALUES      (1, 
+             2), 
+            (2, 
+             3); 
 
-insert into books_genres (book_id, genre_id) values (1, 2), (2, 3);
-
-insert into books_authors (book_id, author_id) values (1, 3), (2, 1);
+INSERT INTO books_authors 
+            (book_id, 
+             author_id) 
+VALUES      (1, 
+             3), 
+            (2, 
+             1); 
