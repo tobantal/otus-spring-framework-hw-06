@@ -8,9 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 import ru.otus.spring.domain.Book;
-import ru.otus.spring.mapper.AuthorMapper;
 import ru.otus.spring.mapper.BookMapper;
-import ru.otus.spring.mapper.GenreMapper;
 
 @Repository
 @RequiredArgsConstructor
