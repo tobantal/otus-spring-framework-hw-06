@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import ru.otus.spring.domain.Author;
-import ru.otus.spring.domain.Person;;
 
 @Component
 public class AuthorMapper implements RowMapper<Author> {

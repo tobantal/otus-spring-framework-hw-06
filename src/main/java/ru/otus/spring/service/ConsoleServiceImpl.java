@@ -1,16 +1,11 @@
-package ru.otus.spring.shell;
+package ru.otus.spring.service;
 
 import java.io.PrintStream;
 
 import org.springframework.stereotype.Service;
 
 @Service
-public class ConsoleService {
-
-	private static final String ANSI_RESET = "\u001B[0m";
-	private static final String ANSI_RED = "\u001B[31m";
-	private static final String ANSI_GREEN = "\u001B[32m";
-	private static final String ANSI_YELLOW = "\u001B[33m";
+public class ConsoleServiceImpl implements ConsoleService {
 	
 	private final PrintStream out = System.out;
 	

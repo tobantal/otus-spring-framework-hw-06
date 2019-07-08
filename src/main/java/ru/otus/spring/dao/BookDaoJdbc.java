@@ -47,12 +47,11 @@ public class BookDaoJdbc implements BookDao {
 	public void deleteById(int id) {
 		final HashMap<String, Object> params = new HashMap<>(1);
 		params.put("id", id);
-		jdbc.update("delete from persons where id = :id", params);
+		jdbc.update("delete from books where id = :id", params);
 	}
 
 	@Override
 	public Book getByName(String name) {
-		// TODO Auto-generated method stub
 		final HashMap<String, Object> params = new HashMap<>(1);
 		params.put("name", name);
 		return jdbc.queryForObject("select * from books where name = :name", params, bookMapper);

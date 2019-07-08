@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import ru.otus.spring.domain.Genre;
-import ru.otus.spring.domain.Person;;
 
 @Component
 public class GenreMapper implements RowMapper<Genre> {
