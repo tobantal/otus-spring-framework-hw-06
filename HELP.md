@@ -47,7 +47,9 @@ FROM   ((books
          INNER JOIN authors 
                  ON books.author_id = authors.id) 
         INNER JOIN genres 
-                ON books.genre_id = genres.id ); 
+                ON books.genre_id = genres.id )
+WHERE
+       author LIKE '%rov';
 -----------------------------
 
 -----------------------------
