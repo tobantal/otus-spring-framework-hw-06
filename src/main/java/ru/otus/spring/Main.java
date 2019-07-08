@@ -16,6 +16,6 @@ public class Main {
 
         //PersonDao dao = context.getBean(PersonDao.class);
 
-        Console.main(args);
+        //Console.main(args);
     }
 }

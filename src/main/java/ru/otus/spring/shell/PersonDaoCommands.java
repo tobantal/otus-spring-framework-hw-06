@@ -17,32 +17,32 @@ public class PersonDaoCommands {
 	private final ConsoleService consoleService;
 	
 	@ShellMethod("count persons")
-	public void count() {
+	public void count1() {
 		consoleService.write("persons are %d", personDao.count());
 	}
 	
 	@ShellMethod("insert new person")
-	public void put(String id, String name) {
+	public void put1(String id, String name) {
 		Person person = new Person(Integer.parseInt(id), name);	
 		personDao.insert(person);
 		consoleService.write("person %s has been saved", person.getName());
 	}
 	
 	@ShellMethod("find person by id")
-	public void get(String id) {
+	public void get1(String id) {
 		Person person = personDao.getById(Integer.parseInt(id));
 		consoleService.write("person %s has been found", person.getName());
 	}
 	
 	@ShellMethod("find all persons")
-	public void getAll() {
+	public void getAll1() {
 		List<Person> persons = personDao.getAll();
 		persons.forEach(person -> consoleService.write("[%d] %s", person.getId(), person.getName()));
 		
 	}
 	
 	@ShellMethod("delete person by id")
-	public void delete(int id) {
+	public void delete1(int id) {
 		Person person = personDao.getById(id);
 		personDao.deleteById(id);
 		consoleService.write("person %s has been found and deleted", person.getName());
