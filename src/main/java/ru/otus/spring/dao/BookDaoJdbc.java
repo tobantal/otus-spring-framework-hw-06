@@ -30,7 +30,7 @@ public class BookDaoJdbc implements BookDao {
 	public void insert(Book book) {
 		// find or insert into author
 		// find or insert into genre
-		jdbc.getJdbcOperations().update("insert into books (id, name, author_id, genre_id) values (?, ?, ?, ?)", book.getId(), book.getName(), book.getAuthorId(), book.getGenreId());
+		jdbc.getJdbcOperations().update("insert into books (name, author_id, genre_id) values (?, ?, ?)", book.getName(), book.getAuthorId(), book.getGenreId());
 	}
 
 	@Override

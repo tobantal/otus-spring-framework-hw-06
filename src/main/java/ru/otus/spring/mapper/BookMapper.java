@@ -6,8 +6,7 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import ru.otus.spring.domain.Book;
-import ru.otus.spring.domain.Person;;
+import ru.otus.spring.domain.Book;;
 
 @Component
 public class BookMapper implements RowMapper<Book> {

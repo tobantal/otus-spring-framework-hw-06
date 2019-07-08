@@ -28,12 +28,12 @@ public class BookDaoCommands {
 	}
 	
 	@ShellMethod("insert new book")
-	public void put(String id, String name, String author, String genre) {
+	public void put(String name, String author, String genre) {
 		Author a = authordao.getByName(author);
 		// or insert new author
 		Genre g = genreDao.getByName(genre);
 		// or insert new genre
-		Book book = new Book(Integer.parseInt(id), name, a.getId(), g.getId());
+		Book book = new Book(name, a.getId(), g.getId());
 		bookDao.insert(book);
 		consoleService.write("book %s has been saved", book.getName());
 	}
