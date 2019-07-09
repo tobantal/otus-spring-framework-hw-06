@@ -1,6 +1,7 @@
 package ru.otus.spring.shell;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -31,8 +32,9 @@ public class BookDaoCommands {
 	
 	@ShellMethod("find book by name")
 	public void findBook(String name) {
-		BookDto b = bookService.findBookByName(name);
-		consoleService.write("[%d] name=%s, author=%s, genre=%s", b.getId(), b.getName(), b.getAuthor(), b.getGenre());
+		// обращаемся к кэшу ConcurrentHashMap<String, BookDto>(); // name, BookDto
+		BookDto b = bookService.findBookByName(name); // bookDto.toString()
+		consoleService.write("%s", b.toString());
 	}
 	
 	@ShellMethod("find all books")

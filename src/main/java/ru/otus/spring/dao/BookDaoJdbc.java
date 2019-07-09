@@ -16,8 +16,6 @@ public class BookDaoJdbc implements BookDao {
 
 	private final NamedParameterJdbcOperations jdbc;
 	private final BookMapper bookMapper;
-	//private final AuthorMapper authorMapper;
-	//private final GenreMapper genreMapper;
 
 	@Override
 	public int count() {
