@@ -26,8 +26,9 @@ public class BookServiceImpl implements BookService, InitializingBean {
 	private final GenreDao genreDao;
 	
 	private final GenreService genreService;
+	private final AuthorService authorService;
 	
-	private ConcurrentMap<String, Author> authors;
+	private ConcurrentMap<String, Book> books;
 	
 	@Override
 	public int size() {
@@ -43,9 +44,14 @@ public class BookServiceImpl implements BookService, InitializingBean {
 	}
 
 	@Override
-	public void addBook(String name, String author, String genre) {
-		Book book = new Book(name, getAuthorByName(author).getId(), genreService.getGenreByName(genre).getId());
-		bookDao.insert(book);
+	public void addBook(String name, String author, String genre) { // <- Book
+		if(books.containsKey(name)) {
+			throw new IllegalArgumentException("Book already exists");
+		} else {
+			Book book = new Book(name, authorService.getAuthorByName(author).getId(), genreService.getGenreByName(genre).getId());
+			bookDao.insert(book);
+			books.put(name, book);
+		}
 	}
 
 	@Override
@@ -66,20 +72,7 @@ public class BookServiceImpl implements BookService, InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		authors = authorDao.getAll().stream().collect(Collectors.toConcurrentMap(Author::getName, a->a));
-		//genres = genreDao.getAll().stream().collect(Collectors.toConcurrentMap(Genre::getName, g->g));
-	}
-	
-	private Author getAuthorByName(String author) {
-		Author a;
-		if(authors.containsKey(author)) {
-			a = authors.get(author);
-		} else {
-			authorDao.insert(new Author(author));
-			a = authorDao.getByName(author);
-			authors.put(author, a);
-		}
-		return a;
+		books = bookDao.getAll().stream().collect(Collectors.toConcurrentMap(Book::getName, b->b));
 	}
 	
 }
