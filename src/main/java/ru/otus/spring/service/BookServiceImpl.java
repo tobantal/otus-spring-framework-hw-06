@@ -28,7 +28,7 @@ public class BookServiceImpl implements BookService, InitializingBean {
 
 	@Override
 	public Book findBookByName(String name) {
-		return books.get(name); //bookDao.getByName(name);
+		return books.get(name);
 	}
 
 	@Override
@@ -45,6 +45,7 @@ public class BookServiceImpl implements BookService, InitializingBean {
 	@Override
 	public void deleteBookById(int id) {
 		bookDao.deleteById(id);
+		books = bookDao.getAll().stream().collect(Collectors.toConcurrentMap(Book::getName, b->b));
 	}
 
 	@Override

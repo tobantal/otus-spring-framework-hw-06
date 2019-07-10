@@ -45,6 +45,7 @@ public class AuthorServiceImpl implements AuthorService, InitializingBean {
 	@Override
 	public void deleteById(int id) {
 		authorDao.deleteById(id);
+		authors = authorDao.getAll().stream().collect(Collectors.toConcurrentMap(Author::getName, a->a));
 	}
 
 	@Override
