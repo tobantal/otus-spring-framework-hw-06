@@ -35,4 +35,14 @@ public class GenreServiceImpl implements GenreService, InitializingBean {
 		genres = genreDao.getAll().stream().collect(Collectors.toConcurrentMap(Genre::getName, g->g));
 	}
 
+	@Override
+	public int size() {
+		return genreDao.count();
+	}
+
+	@Override
+	public void deleteById(int id) {
+		genreDao.deleteById(id);		
+	}
+
 }

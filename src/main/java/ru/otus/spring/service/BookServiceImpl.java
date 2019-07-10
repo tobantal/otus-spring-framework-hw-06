@@ -8,22 +8,14 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import ru.otus.spring.dao.AuthorDao;
 import ru.otus.spring.dao.BookDao;
-import ru.otus.spring.dao.GenreDao;
-import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
-import ru.otus.spring.domain.Genre;
-import ru.otus.spring.dto.BookDto;
 
 @RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService, InitializingBean {
 	
 	private final BookDao bookDao;
-	private final AuthorDao authorDao;
-	private final GenreDao genreDao;
-	
 	private final GenreService genreService;
 	private final AuthorService authorService;
 	
@@ -35,11 +27,8 @@ public class BookServiceImpl implements BookService, InitializingBean {
 	}
 
 	@Override
-	public BookDto findBookByName(String name) {
-		Book b = bookDao.getByName(name);
-		Author a = authorDao.getById(b.getAuthorId());
-		Genre g = genreDao.getById(b.getGenreId());
-		return new BookDto(b.getId(), b.getName(), a.getName(), g.getName());
+	public Book findBookByName(String name) {
+		return books.get(name); //bookDao.getByName(name);
 	}
 
 	@Override
@@ -47,7 +36,7 @@ public class BookServiceImpl implements BookService, InitializingBean {
 		if(books.containsKey(name)) {
 			throw new IllegalArgumentException("Book already exists");
 		} else {
-			Book book = new Book(name, authorService.getAuthorByName(author).getId(), genreService.getGenreByName(genre).getId());
+			Book book = new Book(name, authorService.getAuthorByName(author), genreService.getGenreByName(genre));
 			bookDao.insert(book);
 			books.put(name, book);
 		}
@@ -59,14 +48,8 @@ public class BookServiceImpl implements BookService, InitializingBean {
 	}
 
 	@Override
-	public List<BookDto> findAllBooks() {
-		List<Book> books = bookDao.getAll();
-		return books.stream()
-				.map(b->{
-					Author a = authorDao.getById(b.getAuthorId());
-					Genre g = genreDao.getById(b.getGenreId());
-					return new BookDto(b.getId(), b.getName(), a.getName(), g.getName());
-		}).collect(Collectors.toList());
+	public List<Book> findAllBooks() {
+		return bookDao.getAll();
 	}
 
 	@Override

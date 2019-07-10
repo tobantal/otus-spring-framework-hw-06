@@ -2,18 +2,18 @@ package ru.otus.spring.service;
 
 import java.util.List;
 
-import ru.otus.spring.dto.BookDto;
+import ru.otus.spring.domain.Book;
 
 public interface BookService {
 	
 	int size();
 	
-	BookDto findBookByName(String name);
+	Book findBookByName(String name);
 	
 	void addBook(String name, String author, String genre);
 	
 	void deleteBookById(int id);
 	
-	List<BookDto> findAllBooks();
+	List<Book> findAllBooks();
 
 }

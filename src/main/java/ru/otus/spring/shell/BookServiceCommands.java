@@ -7,20 +7,25 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
 import lombok.RequiredArgsConstructor;
+import ru.otus.spring.domain.Book;
 import ru.otus.spring.dto.BookDto;
+import ru.otus.spring.service.AuthorService;
 import ru.otus.spring.service.BookService;
 import ru.otus.spring.service.ConsoleServiceImpl;
+import ru.otus.spring.service.GenreService;
 
 @ShellComponent
 @RequiredArgsConstructor
-public class BookDaoCommands {
+public class BookServiceCommands {
 	
 	private final ConsoleServiceImpl consoleService;
 	private final BookService bookService;
+	private final AuthorService authorService;
+	private final GenreService genreService;
 	
 	
 	@ShellMethod("count books")
-	public void count() {
+	public void countBooks() {
 		consoleService.write("books are %d", bookService.size());
 	}
 	
@@ -32,20 +37,25 @@ public class BookDaoCommands {
 	
 	@ShellMethod("find book by name")
 	public void findBook(String name) {
-		// обращаемся к кэшу ConcurrentHashMap<String, BookDto>(); // name, BookDto
-		BookDto b = bookService.findBookByName(name); // bookDto.toString()
+		Book b = bookService.findBookByName(name);
 		consoleService.write("%s", b.toString());
 	}
 	
+	
 	@ShellMethod("find all books")
 	public void findAllBooks() {
-		List<BookDto> booksDto = bookService.findAllBooks();
-		booksDto.forEach(b -> consoleService.write("[%d] name=%s, author=%s, genre=%s",  b.getId(), b.getName(), b.getAuthor(), b.getGenre()));		
+		List<Book> books = bookService.findAllBooks();
+		books.forEach(b -> consoleService.write("%s",  b.toString()));		
 	}
 	
 	@ShellMethod("delete book by id")
 	public void delete(int id) {
 		bookService.deleteBookById(id);
 		consoleService.write("book [%d] has been found and deleted", id);
+	}
+	
+	@ShellMethod("count authors")
+	public void countAuthors() {
+		consoleService.write("authors are %d", authorService.size());
 	}
 }

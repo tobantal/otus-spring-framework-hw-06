@@ -14,6 +14,20 @@ import ru.otus.spring.mapper.BookMapper;
 @RequiredArgsConstructor
 public class BookDaoJdbc implements BookDao {
 
+	private static final String FIND_ALL_SQL_QUERY = "	SELECT books.id, \r\n" + 
+			"		       books.NAME, \r\n" + 
+			"		       author_id, \r\n" + 
+			"		       authors.NAME AS author, \r\n" + 
+			"		       genre_id, \r\n" + 
+			"		       genres.NAME AS genre \r\n" + 
+			"			FROM   ((books \r\n" + 
+			"		    INNER JOIN authors \r\n" + 
+			"		                 ON books.author_id = authors.id) \r\n" + 
+			"		    INNER JOIN genres \r\n" + 
+			"		                ON books.genre_id = genres.id )";
+	
+	private static final String FIND_BY_NAME_SQL_QUERY = FIND_ALL_SQL_QUERY + " WHERE books.name = :name";
+	
 	private final NamedParameterJdbcOperations jdbc;
 	private final BookMapper bookMapper;
 
@@ -24,9 +38,7 @@ public class BookDaoJdbc implements BookDao {
 
 	@Override
 	public void insert(Book book) {
-		// find or insert into author
-		// find or insert into genre
-		jdbc.getJdbcOperations().update("insert into books (name, author_id, genre_id) values (?, ?, ?)", book.getName(), book.getAuthorId(), book.getGenreId());
+		jdbc.getJdbcOperations().update("insert into books (name, author_id, genre_id) values (?, ?, ?)", book.getName(), book.getAuthor().getId(), book.getGenre().getId());
 	}
 
 	@Override
@@ -38,22 +50,7 @@ public class BookDaoJdbc implements BookDao {
 
 	@Override
 	public List<Book> getAll() {
-		/*
-		 // findAllBooks()
-		 SELECT books.id, 
-		       books.NAME, 
-		       author_id, 
-		       authors.NAME AS author, 
-		       genre_id, 
-		       genres.NAME  AS genre 
-		FROM   ((books 
-		         INNER JOIN authors 
-		                 ON books.author_id = authors.id) 
-		        INNER JOIN genres 
-		                ON books.genre_id = genres.id );
-		 
-		*/
-		return jdbc.query("select * from books", bookMapper);
+		return jdbc.query(FIND_ALL_SQL_QUERY, bookMapper);
 	}
 
 	@Override
@@ -67,6 +64,6 @@ public class BookDaoJdbc implements BookDao {
 	public Book getByName(String name) {
 		final HashMap<String, Object> params = new HashMap<>(1);
 		params.put("name", name);
-		return jdbc.queryForObject("select * from books where name = :name", params, bookMapper);
+		return jdbc.queryForObject(FIND_BY_NAME_SQL_QUERY, params, bookMapper);
 	}
 }

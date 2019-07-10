@@ -6,4 +6,8 @@ public interface AuthorService {
 	
 	Author getAuthorByName(String genre);
 	
+	int size();
+	
+	void deleteById(int id);
+	
 }
