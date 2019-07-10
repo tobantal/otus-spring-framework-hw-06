@@ -4,19 +4,22 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
 import ru.otus.spring.dao.GenreDao;
 import ru.otus.spring.domain.Genre;
 
 @Service
-@RequiredArgsConstructor
-public class GenreServiceImpl implements GenreService, InitializingBean {
+public class GenreServiceImpl implements GenreService {
 	
 	private final GenreDao genreDao;
 	private ConcurrentMap<String, Genre> genres;
+	
+	public GenreServiceImpl(GenreDao genreDao) {
+		super();
+		this.genreDao = genreDao;
+		genres = genreDao.getAll().stream().collect(Collectors.toConcurrentMap(Genre::getName, g->g));
+	}
 
 	@Override
 	public Genre createIfItIsNecessaryAndGet(String genre) {
@@ -29,11 +32,6 @@ public class GenreServiceImpl implements GenreService, InitializingBean {
 			genres.put(genre, g);
 		}
 		return g;
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		genres = genreDao.getAll().stream().collect(Collectors.toConcurrentMap(Genre::getName, g->g));
 	}
 
 	@Override
