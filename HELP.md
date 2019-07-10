@@ -51,7 +51,17 @@ FROM   ((books
 WHERE
        author LIKE '%rov';
 -----------------------------
-
+SELECT books.id, 
+       books.NAME, 
+       author_id, 
+       authors.NAME AS author, 
+       genre_id, 
+       genres.NAME  AS genre 
+FROM   ((books 
+         INNER JOIN authors 
+                 ON books.author_id = authors.id) 
+        INNER JOIN genres 
+                ON books.genre_id = genres.id );
 -----------------------------
 
 -----------------------------
