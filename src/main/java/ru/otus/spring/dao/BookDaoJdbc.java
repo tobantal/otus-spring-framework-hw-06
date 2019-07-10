@@ -26,7 +26,9 @@ public class BookDaoJdbc implements BookDao {
 			"		    INNER JOIN genres \r\n" + 
 			"		                ON books.genre_id = genres.id )";
 	
-	private static final String FIND_BY_NAME_SQL_QUERY = FIND_ALL_SQL_QUERY + " WHERE books.name = :name";
+	private static final String FIND_BY_NAME_SQL_QUERY = FIND_ALL_SQL_QUERY + " WHERE books.name LIKE '%:name%'";
+	private static final String FIND_BY_AUTHOR_SQL_QUERY = FIND_ALL_SQL_QUERY + " WHERE authors.name = :name";
+	private static final String FIND_BY_GENRE_SQL_QUERY = FIND_ALL_SQL_QUERY + " WHERE genres.name = :name";
 	
 	private final NamedParameterJdbcOperations jdbc;
 	private final BookMapper bookMapper;
@@ -65,5 +67,19 @@ public class BookDaoJdbc implements BookDao {
 		final HashMap<String, Object> params = new HashMap<>(1);
 		params.put("name", name);
 		return jdbc.queryForObject(FIND_BY_NAME_SQL_QUERY, params, bookMapper);
+	}
+
+	@Override
+	public List<Book> getAllByAuthor(String author) {
+		final HashMap<String, Object> params = new HashMap<>(1);
+		params.put("name", author);
+		return jdbc.query(FIND_BY_AUTHOR_SQL_QUERY, params, bookMapper);
+	}
+
+	@Override
+	public List<Book> getAllByGenre(String genre) {
+		final HashMap<String, Object> params = new HashMap<>(1);
+		params.put("name", genre);
+		return jdbc.query(FIND_BY_GENRE_SQL_QUERY, params, bookMapper);
 	}
 }

@@ -1,14 +1,14 @@
 package ru.otus.spring.shell;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
 import lombok.RequiredArgsConstructor;
+import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
-import ru.otus.spring.dto.BookDto;
+import ru.otus.spring.domain.Genre;
 import ru.otus.spring.service.AuthorService;
 import ru.otus.spring.service.BookService;
 import ru.otus.spring.service.ConsoleServiceImpl;
@@ -41,6 +41,17 @@ public class BookServiceCommands {
 		consoleService.write("%s", b.toString());
 	}
 	
+	@ShellMethod("find book by author")
+	public void findBooksByAuthor(String author) {
+		List<Book> books = bookService.findBooksByAuthor(author);
+		books.forEach(b -> consoleService.write("%s",  b.toString()));	
+	}
+	
+	@ShellMethod("find book by genre")
+	public void findBooksByGenre(String genre) {
+		List<Book> books = bookService.findBooksByGenre(genre);
+		books.forEach(b -> consoleService.write("%s",  b.toString()));	
+	}
 	
 	@ShellMethod("find all books")
 	public void findAllBooks() {
@@ -48,14 +59,33 @@ public class BookServiceCommands {
 		books.forEach(b -> consoleService.write("%s",  b.toString()));		
 	}
 	
-	@ShellMethod("delete book by id")
-	public void delete(int id) {
-		bookService.deleteBookById(id);
-		consoleService.write("book [%d] has been found and deleted", id);
+	@ShellMethod("find all authors")
+	public void findAllAuthors() {
+		List<Author> authors = authorService.findAll();
+		authors.forEach(a -> consoleService.write("%s",  a.toString()));		
 	}
 	
-	@ShellMethod("count authors")
-	public void countAuthors() {
-		consoleService.write("authors are %d", authorService.size());
+	@ShellMethod("find all genres")
+	public void findAllGenres() {
+		List<Genre> genres = genreService.findAll();
+		genres.forEach(g -> consoleService.write("%s",  g.toString()));		
+	}
+	
+	@ShellMethod("delete book by id")
+	public void deleteBook(int id) {
+		bookService.deleteBookById(id);
+		consoleService.write("book with id=%s has been deleted", id);
+	}
+	
+	@ShellMethod("delete author by id")
+	public void deleteAuthor(String id) {
+		authorService.deleteById(Integer.parseInt(id));
+		consoleService.write("author with id=%s has been deleted", id);
+	}
+	
+	@ShellMethod("delete genre by id")
+	public void deleteGenre(String id) {
+		genreService.deleteById(Integer.parseInt(id));
+		consoleService.write("genre with id=%s has been deleted", id);
 	}
 }

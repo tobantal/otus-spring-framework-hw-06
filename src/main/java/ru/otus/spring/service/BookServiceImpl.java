@@ -32,11 +32,11 @@ public class BookServiceImpl implements BookService, InitializingBean {
 	}
 
 	@Override
-	public void addBook(String name, String author, String genre) { // <- Book
+	public void addBook(String name, String author, String genre) {
 		if(books.containsKey(name)) {
 			throw new IllegalArgumentException("Book already exists");
 		} else {
-			Book book = new Book(name, authorService.getAuthorByName(author), genreService.getGenreByName(genre));
+			Book book = new Book(name, authorService.createIfItIsNecessaryAndGet(author), genreService.createIfItIsNecessaryAndGet(genre));
 			bookDao.insert(book);
 			books.put(name, book);
 		}
@@ -55,6 +55,16 @@ public class BookServiceImpl implements BookService, InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		books = bookDao.getAll().stream().collect(Collectors.toConcurrentMap(Book::getName, b->b));
+	}
+
+	@Override
+	public List<Book> findBooksByAuthor(String author) {
+		return bookDao.getAllByAuthor(author);
+	}
+
+	@Override
+	public List<Book> findBooksByGenre(String genre) {
+		return bookDao.getAllByGenre(genre);
 	}
 	
 }

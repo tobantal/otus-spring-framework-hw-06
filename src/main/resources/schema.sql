@@ -33,8 +33,8 @@ CREATE TABLE books
      genre_id  INT(11) NOT NULL, 
      author_id INT(11) NOT NULL, 
      PRIMARY KEY(id), 
-     FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE RESTRICT, 
-     FOREIGN KEY (author_id) REFERENCES authors(id) ON DELETE RESTRICT 
+     FOREIGN KEY (genre_id) REFERENCES genres(id), 
+     FOREIGN KEY (author_id) REFERENCES authors(id) 
   ); 
 
 DROP TABLE IF EXISTS books_genres; 

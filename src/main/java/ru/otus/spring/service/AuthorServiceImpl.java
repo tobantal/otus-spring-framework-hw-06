@@ -1,5 +1,6 @@
 package ru.otus.spring.service;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,7 @@ public class AuthorServiceImpl implements AuthorService, InitializingBean {
 	private ConcurrentMap<String, Author> authors;
 
 	@Override
-	public Author getAuthorByName(String author) {
+	public Author createIfItIsNecessaryAndGet(String author) {
 		Author a;
 		if(authors.containsKey(author)) {
 			a = authors.get(author);
@@ -44,6 +45,11 @@ public class AuthorServiceImpl implements AuthorService, InitializingBean {
 	@Override
 	public void deleteById(int id) {
 		authorDao.deleteById(id);
+	}
+
+	@Override
+	public List<Author> findAll() {
+		return authorDao.getAll();
 	}
 
 }

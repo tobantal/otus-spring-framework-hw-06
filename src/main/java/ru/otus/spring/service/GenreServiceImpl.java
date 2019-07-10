@@ -1,5 +1,6 @@
 package ru.otus.spring.service;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ public class GenreServiceImpl implements GenreService, InitializingBean {
 	private ConcurrentMap<String, Genre> genres;
 
 	@Override
-	public Genre getGenreByName(String genre) {
+	public Genre createIfItIsNecessaryAndGet(String genre) {
 		Genre g;
 		if(genres.containsKey(genre)) {
 			g = genres.get(genre);
@@ -43,6 +44,11 @@ public class GenreServiceImpl implements GenreService, InitializingBean {
 	@Override
 	public void deleteById(int id) {
 		genreDao.deleteById(id);		
+	}
+
+	@Override
+	public List<Genre> findAll() {
+		return genreDao.getAll();
 	}
 
 }
