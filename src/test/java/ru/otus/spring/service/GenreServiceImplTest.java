@@ -8,6 +8,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -45,6 +46,12 @@ public class GenreServiceImplTest {
 		Genre genre = genreService.createIfItIsNecessaryAndGet("comics");
 		verify(genreDao, times(0)).getByName(any());
 		assertEquals(genre.getId(), 3);
+	}
+	
+	@Test
+	public void shouldDeleteById() {
+		genreService.deleteById(1);;
+		verify(genreDao, times(1)).deleteById(1);
 	}
 	
 	/*
