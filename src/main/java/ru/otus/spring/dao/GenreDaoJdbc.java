@@ -24,7 +24,10 @@ public class GenreDaoJdbc implements GenreDao {
 
 	@Override
 	public void insert(Genre genre) {
-		jdbc.getJdbcOperations().update("insert into genres (id, name) values (?, ?)", genre.getId(), genre.getName());
+		final HashMap<String, Object> params = new HashMap<>(1);
+		params.put("id", genre.getId());
+		params.put("name", genre.getName());
+		jdbc.update("insert into genres (id, name) values (:id, :name)", params);
 	}
 
 	@Override
@@ -48,7 +51,6 @@ public class GenreDaoJdbc implements GenreDao {
 
 	@Override
 	public Genre getByName(String name) {
-		// TODO Auto-generated method stub
 		final HashMap<String, Object> params = new HashMap<>(1);
 		params.put("name", name);
 		return jdbc.queryForObject("select * from genres where name = :name", params, genreMapper);
