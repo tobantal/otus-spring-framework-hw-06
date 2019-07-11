@@ -1,11 +1,3 @@
-DROP TABLE IF EXISTS persons; 
-
-CREATE TABLE persons 
-  ( 
-     id   INT PRIMARY KEY, 
-     name VARCHAR(255) 
-  ); 
-
 DROP TABLE IF EXISTS genres; 
 
 CREATE TABLE genres 

@@ -1,9 +1,3 @@
-INSERT INTO persons 
-            (id, 
-             name) 
-VALUES      (1, 
-             'masha'); 
-
 INSERT INTO genres 
             (name) 
 VALUES      ('comics'), 

@@ -1,14 +1,9 @@
-INSERT INTO persons 
-            (id, 
-             name) 
-VALUES      (1, 
-             'masha'); 
-
 INSERT INTO genres 
             (name) 
 VALUES      ('comics'), 
             ('horrors'), 
-            ('fantasy'); 
+            ('fantasy'),
+            ('documentary'); 
 
 INSERT INTO authors 
             (name) 
@@ -28,7 +23,10 @@ VALUES      (1,
              'Fly N2'), 
             (3, 
              3, 
-             'Young Pirate'); 
+             'Young Pirate'),
+            (1, 
+             1, 
+             'ABC'); 
 
 INSERT INTO books_genres 
             (book_id, 
