@@ -2,6 +2,8 @@ package ru.otus.spring.service;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -18,6 +20,8 @@ public class BookServiceImpl implements BookService, InitializingBean {
 	private final BookDao bookDao;
 	private final GenreService genreService;
 	private final AuthorService authorService;
+	
+	private final ExecutorService executorService = Executors.newCachedThreadPool();;
 	
 	private ConcurrentMap<String, Book> books;
 	
@@ -38,7 +42,12 @@ public class BookServiceImpl implements BookService, InitializingBean {
 		} else {
 			Book book = new Book(name, authorService.createIfItIsNecessaryAndGet(author), genreService.createIfItIsNecessaryAndGet(genre));
 			bookDao.insert(book);
-			books.put(name, book);
+			// далее в отдельном потоке
+			executorService.submit(() -> {
+				books = bookDao.getAll().stream().collect(Collectors.toConcurrentMap(Book::getName, b->b));
+				books.put(name, findBookByName(name));
+			});
+
 		}
 	}
 
