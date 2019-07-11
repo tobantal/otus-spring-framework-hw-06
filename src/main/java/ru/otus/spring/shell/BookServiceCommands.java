@@ -23,7 +23,6 @@ public class BookServiceCommands {
 	private final AuthorService authorService;
 	private final GenreService genreService;
 	
-	
 	@ShellMethod("count books")
 	public void countBooks() {
 		consoleService.write("books are %d", bookService.size());
