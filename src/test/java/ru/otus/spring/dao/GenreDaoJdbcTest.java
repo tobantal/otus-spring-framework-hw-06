@@ -30,7 +30,7 @@ public class GenreDaoJdbcTest {
 
 	@Test
 	public void insert() {
-		Genre genre = new Genre("Humor");
+		Genre genre = new Genre("humor");
 		int countBefore = genreDao.count();
 		genreDao.insert(genre);
 		assertEquals(countBefore + 1, genreDao.count());

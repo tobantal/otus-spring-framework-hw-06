@@ -8,25 +8,17 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.Collections;
-import java.util.List;
 
-import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.junit.Before;
+import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ru.otus.spring.dao.GenreDao;
 import ru.otus.spring.domain.Genre;
-//import org.springframework.test.context.junit4.SpringRunner;
 
-//@RunWith(SpringRunner.class)
 @SpringBootTest
-//@DisplayName("GenreServiceImpl должен ")
 public class GenreServiceImplTest {
 
-	//@Mock
 	private GenreDao genreDao;
 
 	private GenreService genreService;
@@ -41,7 +33,6 @@ public class GenreServiceImplTest {
 	}
 	
 	@Test
-	//@DisplayName("не вызывать Dao, если есть жанр в кэше")
 	public void shouldNotCallDaoIfItIsNotNecessary() {
 		Genre genre = genreService.createIfItIsNecessaryAndGet("comics");
 		verify(genreDao, times(0)).getByName(any());

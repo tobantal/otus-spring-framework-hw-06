@@ -30,9 +30,9 @@ public class AuthorDaoJdbcTest {
 
 	@Test
 	public void insert() {
-		Author genre = new Author("Pushkin");
+		Author author = new Author("Pushkin");
 		int countBefore = authorDao.count();
-		authorDao.insert(genre);
+		authorDao.insert(author);
 		assertEquals(countBefore + 1, authorDao.count());
 	}
 
