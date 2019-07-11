@@ -1,6 +1,7 @@
 package ru.otus.spring.dao;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +17,6 @@ import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.mapper.BookMapper;
-import ru.otus.spring.mapper.GenreMapper;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
@@ -37,13 +37,15 @@ public class BookDaoJdbcTest {
 		bookDao.insert(book);
 		assertEquals(countBefore + 1, bookDao.count());
 	}
-
-	/*
+	
 	@Test
 	public void testGetById() {
-		fail("Not yet implemented");
+		Book book = bookDao.getById(1);
+		assertNotNull(book);
+		assertEquals("Desert rose", book.getName());
 	}
 
+	/*
 	@Test
 	public void testGetAll() {
 		fail("Not yet implemented");
