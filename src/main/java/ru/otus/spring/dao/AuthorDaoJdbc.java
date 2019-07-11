@@ -46,7 +46,7 @@ public class AuthorDaoJdbc extends JdbcDaoSupport implements AuthorDao {
 
 	@Override
 	public Author getByName(String name) {
-		return getJdbcTemplate().queryForObject("select * from authors where name = " + name, mapper);
+		return getJdbcTemplate().queryForObject(String.format("select * from authors where name = '%s'", name), mapper);
 	}
 
 

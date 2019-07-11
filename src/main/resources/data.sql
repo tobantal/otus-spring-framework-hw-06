@@ -8,7 +8,8 @@ INSERT INTO authors
             (name) 
 VALUES      ('Ivanov'), 
             ('Petrov'), 
-            ('Sidorov'); 
+            ('Sidorov'),
+            ('Kruglov'); 
 
 INSERT INTO books 
             (genre_id, 
@@ -23,19 +24,3 @@ VALUES      (1,
             (3, 
              3, 
              'Young Pirate'); 
-
-INSERT INTO books_genres 
-            (book_id, 
-             genre_id) 
-VALUES      (1, 
-             2), 
-            (2, 
-             3); 
-
-INSERT INTO books_authors 
-            (book_id, 
-             author_id) 
-VALUES      (1, 
-             3), 
-            (2, 
-             1); 

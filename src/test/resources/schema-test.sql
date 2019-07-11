@@ -27,28 +27,4 @@ CREATE TABLE books
      PRIMARY KEY(id), 
      FOREIGN KEY (genre_id) REFERENCES genres(id), 
      FOREIGN KEY (author_id) REFERENCES authors(id) 
-  ); 
-
-DROP TABLE IF EXISTS books_genres; 
-
-CREATE TABLE books_genres 
-  ( 
-     id       INT(11) NOT NULL auto_increment, 
-     book_id  INT(11), 
-     genre_id INT(11), 
-     PRIMARY KEY(id), 
-     FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE RESTRICT, 
-     FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE 
-  ); 
-
-DROP TABLE IF EXISTS books_authors; 
-
-CREATE TABLE books_authors 
-  ( 
-     id        INT(11) NOT NULL auto_increment, 
-     book_id   INT(11), 
-     author_id INT(11), 
-     PRIMARY KEY(id), 
-     FOREIGN KEY (author_id) REFERENCES authors(id) ON DELETE RESTRICT, 
-     FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE 
-  ); 
+  );
