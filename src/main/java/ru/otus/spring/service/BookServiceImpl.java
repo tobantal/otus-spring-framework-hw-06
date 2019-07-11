@@ -16,15 +16,13 @@ import ru.otus.spring.domain.Book;
 @RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService, InitializingBean {
-	
+
 	private final BookDao bookDao;
 	private final GenreService genreService;
 	private final AuthorService authorService;
-	
-	private final ExecutorService executorService = Executors.newCachedThreadPool();;
-	
+
 	private ConcurrentMap<String, Book> books;
-	
+
 	@Override
 	public int size() {
 		return bookDao.count();
@@ -37,24 +35,21 @@ public class BookServiceImpl implements BookService, InitializingBean {
 
 	@Override
 	public void addBook(String name, String author, String genre) {
-		if(books.containsKey(name)) {
+		if (books.containsKey(name)) {
 			throw new IllegalArgumentException("Book already exists");
 		} else {
-			Book book = new Book(name, authorService.createIfItIsNecessaryAndGet(author), genreService.createIfItIsNecessaryAndGet(genre));
+			Book book = new Book(name, authorService.createIfItIsNecessaryAndGet(author),
+					genreService.createIfItIsNecessaryAndGet(genre));
 			bookDao.insert(book);
-			// далее в отдельном потоке
-			executorService.submit(() -> {
-				books = bookDao.getAll().stream().collect(Collectors.toConcurrentMap(Book::getName, b->b));
-				books.put(name, findBookByName(name));
-			});
-
+			books = bookDao.getAll().stream().collect(Collectors.toConcurrentMap(Book::getName, b -> b));
+			books.put(name, findBookByName(name));
 		}
 	}
 
 	@Override
 	public void deleteBookById(int id) {
 		bookDao.deleteById(id);
-		books = bookDao.getAll().stream().collect(Collectors.toConcurrentMap(Book::getName, b->b));
+		books = bookDao.getAll().stream().collect(Collectors.toConcurrentMap(Book::getName, b -> b));
 	}
 
 	@Override
@@ -64,7 +59,7 @@ public class BookServiceImpl implements BookService, InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		books = bookDao.getAll().stream().collect(Collectors.toConcurrentMap(Book::getName, b->b));
+		books = bookDao.getAll().stream().collect(Collectors.toConcurrentMap(Book::getName, b -> b));
 	}
 
 	@Override
@@ -76,5 +71,5 @@ public class BookServiceImpl implements BookService, InitializingBean {
 	public List<Book> findBooksByGenre(String genre) {
 		return bookDao.getAllByGenre(genre);
 	}
-	
+
 }

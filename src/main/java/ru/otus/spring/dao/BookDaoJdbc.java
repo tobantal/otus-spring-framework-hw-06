@@ -22,7 +22,7 @@ public class BookDaoJdbc implements BookDao {
 			+ "		    INNER JOIN authors \r\n" + "		                 ON books.author_id = authors.id) \r\n"
 			+ "		    INNER JOIN genres \r\n" + "		                ON books.genre_id = genres.id )";
 
-	private static final String FIND_BY_NAME_SQL_QUERY = FIND_ALL_SQL_QUERY + " WHERE books.name LIKE '%:name%'";
+	private static final String FIND_BY_NAME_SQL_QUERY = FIND_ALL_SQL_QUERY + " WHERE books.name = :name";
 	private static final String FIND_BY_AUTHOR_SQL_QUERY = FIND_ALL_SQL_QUERY + " WHERE authors.name = :name";
 	private static final String FIND_BY_GENRE_SQL_QUERY = FIND_ALL_SQL_QUERY + " WHERE genres.name = :name";
 	private static final String FIND_BY_ID_SQL_QUERY = FIND_ALL_SQL_QUERY + " WHERE books.id = :id";

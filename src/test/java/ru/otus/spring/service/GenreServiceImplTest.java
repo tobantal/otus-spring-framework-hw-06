@@ -20,10 +20,7 @@ import ru.otus.spring.domain.Genre;
 public class GenreServiceImplTest {
 
 	private GenreDao genreDao;
-
 	private GenreService genreService;
-	
-	// сюдя явно задать поле ConcurrentMap из книги Spring5
 
 	@Before
 	public void setup() {
@@ -44,16 +41,5 @@ public class GenreServiceImplTest {
 		genreService.deleteById(1);;
 		verify(genreDao, times(1)).deleteById(1);
 	}
-	
-	/*
-	@Test
-	public void createIfItIsNecessaryAndGet_shouldCallDao() {
-		Genre genre = genreService.createIfItIsNecessaryAndGet("fantasy");
-		//verify(genreDao, times(1)).insert(any());
-		//verify(genreDao, times(1)).getByName("fantasy");
-		//assertNotEquals(genre.getId(), 3);
-	}
-	*/
-	
 
 }

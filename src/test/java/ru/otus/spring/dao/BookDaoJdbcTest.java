@@ -3,6 +3,8 @@ package ru.otus.spring.dao;
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,32 +46,40 @@ public class BookDaoJdbcTest {
 		assertNotNull(book);
 		assertEquals("Desert rose", book.getName());
 	}
-
-	/*
+	
 	@Test
 	public void testGetAll() {
-		fail("Not yet implemented");
+		List<Book> books = bookDao.getAll();
+		int count = bookDao.count();
+		assertEquals(count, books.size());
 	}
 
 	@Test
 	public void testDeleteById() {
-		fail("Not yet implemented");
+		int countBefore = bookDao.count();
+		bookDao.deleteById(3);
+		assertEquals(countBefore - 1, bookDao.count());
 	}
 
 	@Test
 	public void testGetByName() {
-		fail("Not yet implemented");
+		String name = "Desert rose";
+		Book book = bookDao.getByName(name);
+		assertNotNull(book);
+		assertEquals(1, book.getId());
 	}
 
 	@Test
 	public void testGetAllByAuthor() {
-		fail("Not yet implemented");
+		String name = "Petrov";
+		List<Book> books = bookDao.getAllByAuthor(name);
+		assertEquals(1, books.size());
 	}
 
 	@Test
 	public void testGetAllByGenre() {
-		fail("Not yet implemented");
+		String name = "fantasy";
+		List<Book> books = bookDao.getAllByGenre(name);
+		assertEquals(1, books.size());
 	}
-
-	*/
 }
