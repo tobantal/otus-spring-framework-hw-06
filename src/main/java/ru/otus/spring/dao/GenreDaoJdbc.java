@@ -12,6 +12,7 @@ import ru.otus.spring.mapper.GenreMapper;
 
 @Repository
 @RequiredArgsConstructor
+@SuppressWarnings("serial")
 public class GenreDaoJdbc implements GenreDao {
 
 	private final NamedParameterJdbcOperations jdbc;
@@ -24,17 +25,21 @@ public class GenreDaoJdbc implements GenreDao {
 
 	@Override
 	public void insert(Genre genre) {
-		final HashMap<String, Object> params = new HashMap<>(1);
-		params.put("id", genre.getId());
-		params.put("name", genre.getName());
-		jdbc.update("insert into genres (id, name) values (:id, :name)", params);
+		jdbc.update("insert into genres (id, name) values (:id, :name)", new HashMap<String, Object>(2) {
+			{
+				put("id", genre.getId());
+				put("name", genre.getName());
+			}
+		});
 	}
 
 	@Override
 	public Genre getById(int id) {
-		final HashMap<String, Object> params = new HashMap<>(1);
-		params.put("id", id);
-		return jdbc.queryForObject("select * from genres where id = :id", params, genreMapper);
+		return jdbc.queryForObject("select * from genres where id = :id", new HashMap<String, Object>(1) {
+			{
+				put("id", id);
+			}
+		}, genreMapper);
 	}
 
 	@Override
@@ -44,15 +49,19 @@ public class GenreDaoJdbc implements GenreDao {
 
 	@Override
 	public void deleteById(int id) {
-		final HashMap<String, Object> params = new HashMap<>(1);
-		params.put("id", id);
-		jdbc.update("delete from genres where id = :id", params);
+		jdbc.update("delete from genres where id = :id", new HashMap<String, Object>(1) {
+			{
+				put("id", id);
+			}
+		});
 	}
 
 	@Override
 	public Genre getByName(String name) {
-		final HashMap<String, Object> params = new HashMap<>(1);
-		params.put("name", name);
-		return jdbc.queryForObject("select * from genres where name = :name", params, genreMapper);
+		return jdbc.queryForObject("select * from genres where name = :name", new HashMap<String, Object>(1) {
+			{
+				put("name", name);
+			}
+		}, genreMapper);
 	}
 }
