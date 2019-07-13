@@ -10,7 +10,7 @@ public interface BookService {
 	
 	Book findBookByName(String name);
 	
-	void addBook(String name, String author, String genre);
+	Book addBook(String name, String author, String genre);
 	
 	void deleteBookById(Long id);
 	

@@ -23,7 +23,7 @@ public class AuthorDaoJdbc implements AuthorDao {
 
 	@Override
 	public void insert(Author author) {
-		jdbc.update("insert into authors (id, name) values (?, ?)", author.getId(), author.getName());
+		jdbc.update("insert into authors (name) values (?)", author.getName());
 	}
 
 	@Override

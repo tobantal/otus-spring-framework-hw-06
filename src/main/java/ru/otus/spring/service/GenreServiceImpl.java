@@ -17,16 +17,12 @@ public class GenreServiceImpl implements GenreService {
 
 	@Override
 	public Genre createIfItIsNecessaryAndGet(String genre) {
-		Genre g;
 		try {
-			g = genreDao.getByName(genre);
-			return g;			
+			return genreDao.getByName(genre);			
 		} catch(EmptyResultDataAccessException e) {
 			genreDao.insert(new Genre(genre));
-			g = genreDao.getByName(genre);
-			return g;
+			return genreDao.getByName(genre);
 		}
-		
 	}
 
 	@Override

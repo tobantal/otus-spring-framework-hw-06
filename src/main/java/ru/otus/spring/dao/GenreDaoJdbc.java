@@ -1,7 +1,6 @@
 package ru.otus.spring.dao;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -13,7 +12,6 @@ import ru.otus.spring.mapper.GenreMapper;
 
 @Repository
 @RequiredArgsConstructor
-@SuppressWarnings("serial")
 public class GenreDaoJdbc implements GenreDao {
 
 	private final NamedParameterJdbcOperations jdbc;
@@ -26,11 +24,7 @@ public class GenreDaoJdbc implements GenreDao {
 
 	@Override
 	public void insert(Genre genre) {
-		jdbc.update("insert into genres (name) values (:name)", new HashMap<String, Object>(1) {
-			{
-				put("name", genre.getName());
-			}
-		});
+		jdbc.update("insert into genres (name) values (:name)", Collections.singletonMap("name", genre.getName()));
 	}
 
 	@Override

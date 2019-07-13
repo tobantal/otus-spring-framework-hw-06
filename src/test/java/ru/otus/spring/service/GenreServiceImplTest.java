@@ -35,16 +35,7 @@ public class GenreServiceImplTest {
 		verify(genreDao, times(1)).getByName(any());
 		verify(genreDao, times(0)).insert(any());
 	}
-	
-	/*
-	@Test
-	public void shouldGetByNameTwiceAndInsertIfNotExists() {
-		genreService.createIfItIsNecessaryAndGet("unkown");
-		verify(genreDao, times(2)).getByName(any());
-		verify(genreDao, times(1)).insert(any());
-	}
-	*/
-	
+
 	@Test
 	public void shouldDeleteById() {
 		genreService.deleteById(1L);

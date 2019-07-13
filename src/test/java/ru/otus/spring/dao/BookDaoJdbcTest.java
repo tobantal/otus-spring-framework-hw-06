@@ -3,6 +3,7 @@ package ru.otus.spring.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +36,9 @@ public class BookDaoJdbcTest {
 		int countBefore = bookDao.count();
 		bookDao.insert(book);
 		assertEquals(countBefore + 1, bookDao.count());
+		Book savedBook = bookDao.getByName("YoYo");
+		assertThat(savedBook.getAuthor()).isEqualToComparingFieldByField(author);
+		assertThat(savedBook.getGenre()).isEqualToComparingFieldByField(genre);
 	}
 	
 	@Test
@@ -55,6 +60,7 @@ public class BookDaoJdbcTest {
 		int countBefore = bookDao.count();
 		bookDao.deleteById(3L);
 		assertEquals(countBefore - 1, bookDao.count());
+		assertThrows(EmptyResultDataAccessException.class, () -> bookDao.getById(3L));		
 	}
 
 	@Test
