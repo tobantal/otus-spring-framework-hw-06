@@ -1,5 +1,6 @@
 package ru.otus.spring.dao;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,11 +36,7 @@ public class GenreDaoJdbc implements GenreDao {
 
 	@Override
 	public Genre getById(Long id) {
-		return jdbc.queryForObject("select * from genres where id = :id", new HashMap<String, Object>(1) {
-			{
-				put("id", id);
-			}
-		}, genreMapper);
+		return jdbc.queryForObject("select * from genres where id = :id", Collections.singletonMap("id", id), genreMapper);
 	}
 
 	@Override
@@ -49,19 +46,11 @@ public class GenreDaoJdbc implements GenreDao {
 
 	@Override
 	public void deleteById(Long id) {
-		jdbc.update("delete from genres where id = :id", new HashMap<String, Object>(1) {
-			{
-				put("id", id);
-			}
-		});
+		jdbc.update("delete from genres where id = :id", Collections.singletonMap("id", id));
 	}
 
 	@Override
 	public Genre getByName(String name) {
-		return jdbc.queryForObject("select * from genres where name = :name", new HashMap<String, Object>(1) {
-			{
-				put("name", name);
-			}
-		}, genreMapper);
+		return jdbc.queryForObject("select * from genres where name = :name", Collections.singletonMap("name", name), genreMapper);
 	}
 }
