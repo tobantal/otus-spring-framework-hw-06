@@ -1,5 +1,6 @@
 package ru.otus.spring.dao;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,86 +16,68 @@ import ru.otus.spring.mapper.BookMapper;
 @SuppressWarnings("serial")
 public class BookDaoJdbc implements BookDao {
 
-	private static final String COUNT_SQL_QUERY = "select count(*) from books";
-	private static final String FIND_ALL_SQL_QUERY = "	SELECT books.id, \r\n" + "		       books.NAME, \r\n"
-			+ "		       author_id, \r\n" + "		       authors.NAME AS author, \r\n"
-			+ "		       genre_id, \r\n" + "		       genres.NAME AS genre \r\n" + "			FROM   ((books \r\n"
-			+ "		    INNER JOIN authors \r\n" + "		                 ON books.author_id = authors.id) \r\n"
-			+ "		    INNER JOIN genres \r\n" + "		                ON books.genre_id = genres.id )";
-
-	private static final String FIND_BY_NAME_SQL_QUERY = FIND_ALL_SQL_QUERY + " WHERE books.name = :name";
-	private static final String FIND_BY_AUTHOR_SQL_QUERY = FIND_ALL_SQL_QUERY + " WHERE authors.name = :name";
-	private static final String FIND_BY_GENRE_SQL_QUERY = FIND_ALL_SQL_QUERY + " WHERE genres.name = :name";
-	private static final String FIND_BY_ID_SQL_QUERY = FIND_ALL_SQL_QUERY + " WHERE books.id = :id";
-	private static final String INSERT_BOOK_SQL_QUERY = "insert into books (name, author_id, genre_id) values (:name, :author_id, :genre_id)";
-	private static final String DELETE_BOOK_SQL_QUERY = "delete from books where id = :id";
-
 	private final NamedParameterJdbcOperations jdbc;
 	private final BookMapper bookMapper;
 
 	@Override
 	public int count() {
-		return jdbc.getJdbcOperations().queryForObject(COUNT_SQL_QUERY, Integer.class);
+		return jdbc.getJdbcOperations().queryForObject("select count(*) from books", Integer.class);
 	}
 
 	@Override
 	public void insert(Book book) {
-		jdbc.update(INSERT_BOOK_SQL_QUERY, new HashMap<String, Object>(4) {
-			{
-				put("name", book.getName());
-				put("author_id", book.getAuthor().getId());
-				put("genre_id", book.getGenre().getId());
-			}
-		});
+		jdbc.update("insert into books (name, author_id, genre_id) values (:name, :author_id, :genre_id)",
+				new HashMap<String, Object>(3) {
+					{
+						put("name", book.getName());
+						put("author_id", book.getAuthor().getId());
+						put("genre_id", book.getGenre().getId());
+					}
+				});
 	}
 
 	@Override
 	public Book getById(Long id) {
-		return jdbc.queryForObject(FIND_BY_ID_SQL_QUERY, new HashMap<String, Object>(1) {
-			{
-				put("id", id);
-			}
-		}, bookMapper);
+		return jdbc.queryForObject(
+				"SELECT books.id, books.NAME, author_id, authors.NAME AS author, genre_id, genres.NAME AS genre"
+						+ " FROM ((books INNER JOIN authors ON books.author_id = authors.id) INNER JOIN genres ON books.genre_id = genres.id) WHERE books.id = :id",
+				Collections.singletonMap("id", id), bookMapper);
 	}
 
 	@Override
 	public List<Book> getAll() {
-		return jdbc.query(FIND_ALL_SQL_QUERY, bookMapper);
+		return jdbc.query(
+				"SELECT books.id, books.NAME, author_id, authors.NAME AS author, genre_id, genres.NAME AS genre"
+						+ " FROM ((books INNER JOIN authors ON books.author_id = authors.id) INNER JOIN genres ON books.genre_id = genres.id )",
+				bookMapper);
 	}
 
 	@Override
 	public void deleteById(Long id) {
-		jdbc.update(DELETE_BOOK_SQL_QUERY, new HashMap<String, Object>(1) {
-			{
-				put("id", id);
-			}
-		});
+		jdbc.update("delete from books where id = :id", Collections.singletonMap("id", id));
 	}
 
 	@Override
 	public Book getByName(String name) {
-		return jdbc.queryForObject(FIND_BY_NAME_SQL_QUERY, new HashMap<String, Object>(1) {
-			{
-				put("name", name);
-			}
-		}, bookMapper);
+		return jdbc.queryForObject(
+				"SELECT books.id, books.NAME, author_id, authors.NAME AS author, genre_id, genres.NAME AS genre"
+						+ " FROM ((books INNER JOIN authors ON books.author_id = authors.id) INNER JOIN genres ON books.genre_id = genres.id ) WHERE books.name = :name",
+				Collections.singletonMap("name", name), bookMapper);
 	}
 
 	@Override
 	public List<Book> getAllByAuthor(String author) {
-		return jdbc.query(FIND_BY_AUTHOR_SQL_QUERY, new HashMap<String, Object>(1) {
-			{
-				put("name", author);
-			}
-		}, bookMapper);
+		return jdbc.query(
+				"SELECT books.id, books.NAME, author_id, authors.NAME AS author, genre_id, genres.NAME AS genre"
+						+ " FROM ((books INNER JOIN authors ON books.author_id = authors.id) INNER JOIN genres ON books.genre_id = genres.id) WHERE authors.name = :name",
+				Collections.singletonMap("name", author), bookMapper);
 	}
 
 	@Override
 	public List<Book> getAllByGenre(String genre) {
-		return jdbc.query(FIND_BY_GENRE_SQL_QUERY, new HashMap<String, Object>(1) {
-			{
-				put("name", genre);
-			}
-		}, bookMapper);
+		return jdbc.query(
+				"SELECT books.id, books.NAME, author_id, authors.NAME AS author, genre_id, genres.NAME AS genre"
+						+ " FROM ((books INNER JOIN authors ON books.author_id = authors.id) INNER JOIN genres ON books.genre_id = genres.id ) WHERE genres.name = :name",
+				Collections.singletonMap("name", genre), bookMapper);
 	}
 }
