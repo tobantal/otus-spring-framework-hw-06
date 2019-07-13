@@ -40,7 +40,7 @@ public class GenreServiceImpl implements GenreService {
 	}
 
 	@Override
-	public void deleteById(int id) {
+	public void deleteById(Long id) {
 		genreDao.deleteById(id);
 		genres = genreDao.getAll().stream().collect(Collectors.toConcurrentMap(Genre::getName, g->g));
 	}

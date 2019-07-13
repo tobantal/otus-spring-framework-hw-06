@@ -49,7 +49,7 @@ public class BookDaoJdbc implements BookDao {
 	}
 
 	@Override
-	public Book getById(int id) {
+	public Book getById(Long id) {
 		return jdbc.queryForObject(FIND_BY_ID_SQL_QUERY, new HashMap<String, Object>(1) {
 			{
 				put("id", id);
@@ -63,7 +63,7 @@ public class BookDaoJdbc implements BookDao {
 	}
 
 	@Override
-	public void deleteById(int id) {
+	public void deleteById(Long id) {
 		jdbc.update(DELETE_BOOK_SQL_QUERY, new HashMap<String, Object>(1) {
 			{
 				put("id", id);

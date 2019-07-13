@@ -1,5 +1,6 @@
 package ru.otus.spring.dao;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -28,7 +29,7 @@ public class BookDaoJdbcTest {
 	@Test
 	public void testInsert() {
 		Author author = new Author(1L, "Ivanov");
-		Genre genre = new Genre(1, "comics");
+		Genre genre = new Genre(1L, "comics");
 		Book book = new Book("YoYo", author, genre);
 		int countBefore = bookDao.count();
 		bookDao.insert(book);
@@ -37,7 +38,7 @@ public class BookDaoJdbcTest {
 	
 	@Test
 	public void testGetById() {
-		Book book = bookDao.getById(1);
+		Book book = bookDao.getById(1L);
 		assertNotNull(book);
 		assertEquals("Desert rose", book.getName());
 	}
@@ -52,7 +53,7 @@ public class BookDaoJdbcTest {
 	@Test
 	public void testDeleteById() {
 		int countBefore = bookDao.count();
-		bookDao.deleteById(3);
+		bookDao.deleteById(3L);
 		assertEquals(countBefore - 1, bookDao.count());
 	}
 
@@ -61,7 +62,7 @@ public class BookDaoJdbcTest {
 		String name = "Desert rose";
 		Book book = bookDao.getByName(name);
 		assertNotNull(book);
-		assertEquals(1, book.getId());
+		assertThat(book.getId()).isEqualTo(1L);
 	}
 
 	@Test

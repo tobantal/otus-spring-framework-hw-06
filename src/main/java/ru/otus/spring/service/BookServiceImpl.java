@@ -2,8 +2,6 @@ package ru.otus.spring.service;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -47,7 +45,7 @@ public class BookServiceImpl implements BookService, InitializingBean {
 	}
 
 	@Override
-	public void deleteBookById(int id) {
+	public void deleteBookById(Long id) {
 		bookDao.deleteById(id);
 		books = bookDao.getAll().stream().collect(Collectors.toConcurrentMap(Book::getName, b -> b));
 	}

@@ -1,6 +1,6 @@
 package ru.otus.spring.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -12,6 +12,7 @@ import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import ru.otus.spring.dao.GenreDao;
 import ru.otus.spring.domain.Genre;
 
@@ -24,7 +25,7 @@ public class GenreServiceImplTest {
 	@BeforeEach
 	public void setup() {
 		genreDao = mock(GenreDao.class);
-		given(genreDao.getAll()).willReturn(Collections.singletonList(new Genre(3, "comics")));
+		given(genreDao.getAll()).willReturn(Collections.singletonList(new Genre(3L, "comics")));
 		genreService = new GenreServiceImpl(genreDao);
 	}
 	
@@ -32,13 +33,13 @@ public class GenreServiceImplTest {
 	public void shouldNotCallDaoIfItIsNotNecessary() {
 		Genre genre = genreService.createIfItIsNecessaryAndGet("comics");
 		verify(genreDao, times(0)).getByName(any());
-		assertEquals(genre.getId(), 3);
+		assertThat(genre.getId()).isEqualTo(3L);
 	}
 	
 	@Test
 	public void shouldDeleteById() {
-		genreService.deleteById(1);;
-		verify(genreDao, times(1)).deleteById(1);
+		genreService.deleteById(1L);
+		verify(genreDao, times(1)).deleteById(1L);
 	}
 
 }

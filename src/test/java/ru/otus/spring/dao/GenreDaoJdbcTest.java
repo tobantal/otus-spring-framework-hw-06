@@ -34,7 +34,7 @@ public class GenreDaoJdbcTest {
 
 	@Test
 	public void getById() {
-		Genre genre = genreDao.getById(2);
+		Genre genre = genreDao.getById(2L);
 		assertNotNull(genre);
 		assertEquals("horrors", genre.getName());
 	}
@@ -49,7 +49,7 @@ public class GenreDaoJdbcTest {
 	@Test
 	public void deleteById() {
 		int countBefore = genreDao.count();
-		genreDao.deleteById(4);
+		genreDao.deleteById(4L);
 		assertEquals(countBefore - 1, genreDao.count());
 	}
 	

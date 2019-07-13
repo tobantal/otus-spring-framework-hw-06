@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class Book {
 	
-    private int id;
+    private Long id;
     private final String name;
     private final Author author;
     private final Genre genre;

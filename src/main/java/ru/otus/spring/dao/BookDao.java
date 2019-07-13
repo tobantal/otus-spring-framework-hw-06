@@ -10,11 +10,11 @@ public interface BookDao {
 	
 	void insert(Book book);
 	
-	Book getById(int id);
+	Book getById(Long id);
 	
 	List<Book> getAll();
 	
-	void deleteById(int id);
+	void deleteById(Long id);
 
 	Book getByName(String name);
 	

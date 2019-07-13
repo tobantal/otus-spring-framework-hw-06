@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class Genre {
 
-    private int id;
+    private Long id;
     private final String name;
 
 }

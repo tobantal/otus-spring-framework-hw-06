@@ -34,7 +34,7 @@ public class GenreDaoJdbc implements GenreDao {
 	}
 
 	@Override
-	public Genre getById(int id) {
+	public Genre getById(Long id) {
 		return jdbc.queryForObject("select * from genres where id = :id", new HashMap<String, Object>(1) {
 			{
 				put("id", id);
@@ -48,7 +48,7 @@ public class GenreDaoJdbc implements GenreDao {
 	}
 
 	@Override
-	public void deleteById(int id) {
+	public void deleteById(Long id) {
 		jdbc.update("delete from genres where id = :id", new HashMap<String, Object>(1) {
 			{
 				put("id", id);
