@@ -9,20 +9,22 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Collections;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import ru.otus.spring.dao.GenreDao;
 import ru.otus.spring.domain.Genre;
 
+@ActiveProfiles("test")
 @SpringBootTest
 public class GenreServiceImplTest {
 
 	private GenreDao genreDao;
 	private GenreService genreService;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		genreDao = mock(GenreDao.class);
 		given(genreDao.getAll()).willReturn(Collections.singletonList(new Genre(3, "comics")));

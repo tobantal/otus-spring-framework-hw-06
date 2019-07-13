@@ -18,10 +18,16 @@ spring:
 
 spring:
   profiles: dev
+  shell:
+    interactive:
+      enabled:  true
 
 ---
 spring:
   profiles: test
   datasource:
     schema: classpath:/schema-test.sql
-    data: classpath:/data-test.sql
+    data: classpath:/data-test.sql   
+  shell:
+    interactive:
+      enabled:  false

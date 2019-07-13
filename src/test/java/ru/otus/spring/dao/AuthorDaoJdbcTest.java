@@ -5,20 +5,18 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.mapper.AuthorMapper;
 
-@RunWith(SpringRunner.class)
+
 @ActiveProfiles("test")
 @JdbcTest
 @Import({AuthorDaoJdbc.class, AuthorMapper.class})
