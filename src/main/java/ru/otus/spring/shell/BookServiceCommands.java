@@ -55,19 +55,19 @@ public class BookServiceCommands {
 	@ShellMethod("find all books")
 	public void findAllBooks() {
 		List<Book> books = bookService.findAllBooks();
-		books.forEach(b -> consoleService.write("%s",  b.toString()));		
+		books.forEach(b -> consoleService.write("%s", b.toString()));		
 	}
 	
 	@ShellMethod("find all authors")
 	public void findAllAuthors() {
 		List<Author> authors = authorService.findAll();
-		authors.forEach(a -> consoleService.write("%s",  a.toString()));		
+		authors.forEach(a -> consoleService.write("%s", a.toString()));		
 	}
 	
 	@ShellMethod("find all genres")
 	public void findAllGenres() {
 		List<Genre> genres = genreService.findAll();
-		genres.forEach(g -> consoleService.write("%s",  g.toString()));		
+		genres.forEach(g -> consoleService.write("%s", g.toString()));		
 	}
 	
 	@ShellMethod("delete book by id")
@@ -77,8 +77,8 @@ public class BookServiceCommands {
 	}
 	
 	@ShellMethod("delete author by id")
-	public void deleteAuthor(String id) {
-		authorService.deleteById(Integer.parseInt(id));
+	public void deleteAuthor(Long id) {
+		authorService.deleteById(id);
 		consoleService.write("author with id=%s has been deleted", id);
 	}
 	

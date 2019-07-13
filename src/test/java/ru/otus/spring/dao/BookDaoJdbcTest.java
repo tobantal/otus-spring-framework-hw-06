@@ -27,7 +27,7 @@ public class BookDaoJdbcTest {
 
 	@Test
 	public void testInsert() {
-		Author author = new Author(1, "Ivanov");
+		Author author = new Author(1L, "Ivanov");
 		Genre genre = new Genre(1, "comics");
 		Book book = new Book("YoYo", author, genre);
 		int countBefore = bookDao.count();

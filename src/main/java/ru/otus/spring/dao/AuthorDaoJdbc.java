@@ -27,7 +27,7 @@ public class AuthorDaoJdbc implements AuthorDao {
 	}
 
 	@Override
-	public Author getById(int id) {
+	public Author getById(Long id) {
 		return jdbc.queryForObject("select * from authors where id = " + id, mapper);
 	}
 
@@ -37,7 +37,7 @@ public class AuthorDaoJdbc implements AuthorDao {
 	}
 
 	@Override
-	public void deleteById(int id) {
+	public void deleteById(Long id) {
 		jdbc.update("delete from authors where id = ?", id);
 	}
 

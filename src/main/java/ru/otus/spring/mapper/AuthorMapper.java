@@ -13,7 +13,7 @@ public class AuthorMapper implements RowMapper<Author> {
 
 	@Override
 	public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
-		final int id = rs.getInt("id");
+		final Long id = rs.getLong("id");
 		final String name = rs.getString("name");
 		return new Author(id, name);
 	}

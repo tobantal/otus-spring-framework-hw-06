@@ -4,8 +4,6 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password: pas
-    schema: classpath:/schema-test.sql
-    data: classpath:/data-test.sql 
   h2:
     console:
       enabled: true

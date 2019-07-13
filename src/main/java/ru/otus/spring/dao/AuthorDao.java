@@ -10,11 +10,11 @@ public interface AuthorDao {
 	
 	void insert(Author author);
 	
-	Author getById(int id);
+	Author getById(Long id);
 	
 	List<Author> getAll();
 	
-	void deleteById(int id);
+	void deleteById(Long id);
 
 	Author getByName(String name);
 	

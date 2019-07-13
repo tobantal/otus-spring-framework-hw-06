@@ -33,7 +33,7 @@ public class AuthorDaoJdbcTest {
 
 	@Test
 	public void getById() {
-		Author author = authorDao.getById(2);
+		Author author = authorDao.getById(2L);
 		assertNotNull(author);
 		assertEquals("Petrov", author.getName());
 	}
@@ -48,7 +48,7 @@ public class AuthorDaoJdbcTest {
 	@Test
 	public void deleteById() {
 		int countBefore = authorDao.count();
-		authorDao.deleteById(4);
+		authorDao.deleteById(4L);
 		assertEquals(countBefore - 1, authorDao.count());
 	}
 	
