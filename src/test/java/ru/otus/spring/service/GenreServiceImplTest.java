@@ -1,6 +1,5 @@
 package ru.otus.spring.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -26,15 +25,25 @@ public class GenreServiceImplTest {
 	public void setup() {
 		genreDao = mock(GenreDao.class);
 		given(genreDao.getAll()).willReturn(Collections.singletonList(new Genre(3L, "comics")));
+		given(genreDao.getByName("comics")).willReturn(new Genre(3L, "comics"));
 		genreService = new GenreServiceImpl(genreDao);
 	}
 	
 	@Test
-	public void shouldNotCallDaoIfItIsNotNecessary() {
-		Genre genre = genreService.createIfItIsNecessaryAndGet("comics");
-		verify(genreDao, times(0)).getByName(any());
-		assertThat(genre.getId()).isEqualTo(3L);
+	public void shouldGetByNameIfExists() {
+		genreService.createIfItIsNecessaryAndGet("comics");
+		verify(genreDao, times(1)).getByName(any());
+		verify(genreDao, times(0)).insert(any());
 	}
+	
+	/*
+	@Test
+	public void shouldGetByNameTwiceAndInsertIfNotExists() {
+		genreService.createIfItIsNecessaryAndGet("unkown");
+		verify(genreDao, times(2)).getByName(any());
+		verify(genreDao, times(1)).insert(any());
+	}
+	*/
 	
 	@Test
 	public void shouldDeleteById() {

@@ -3,6 +3,7 @@ package ru.otus.spring.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +32,7 @@ public class GenreDaoJdbcTest {
 		int countBefore = genreDao.count();
 		genreDao.insert(genre);
 		assertEquals(countBefore + 1, genreDao.count());
+		assertNotNull(genreDao.getByName("humor"));
 	}
 
 	@Test
@@ -51,6 +54,7 @@ public class GenreDaoJdbcTest {
 		int countBefore = genreDao.count();
 		genreDao.deleteById(4L);
 		assertEquals(countBefore - 1, genreDao.count());
+		assertThrows(EmptyResultDataAccessException.class, () -> genreDao.getById(4L));
 	}
 	
 	@Test
