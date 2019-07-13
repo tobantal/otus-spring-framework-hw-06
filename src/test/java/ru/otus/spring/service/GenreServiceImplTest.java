@@ -12,12 +12,9 @@ import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-
 import ru.otus.spring.dao.GenreDao;
 import ru.otus.spring.domain.Genre;
 
-@ActiveProfiles("test")
 @SpringBootTest
 public class GenreServiceImplTest {
 

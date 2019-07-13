@@ -1,11 +1,11 @@
 spring:
-  profiles:
-    active: dev
   datasource:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
     username: sa
     password: pas
+    schema: classpath:/schema-test.sql
+    data: classpath:/data-test.sql 
   h2:
     console:
       enabled: true
@@ -13,21 +13,3 @@ spring:
       settings:
         trace: false
         web-allow-others: false
-        
----
-
-spring:
-  profiles: dev
-  shell:
-    interactive:
-      enabled:  true
-
----
-spring:
-  profiles: test
-  datasource:
-    schema: classpath:/schema-test.sql
-    data: classpath:/data-test.sql   
-  shell:
-    interactive:
-      enabled:  false
