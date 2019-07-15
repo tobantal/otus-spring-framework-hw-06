@@ -1,25 +1,23 @@
 package ru.otus.spring.dao;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.mapper.GenreMapper;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.List;
-
-@RunWith(SpringRunner.class)
-@ActiveProfiles("test")
 @JdbcTest
 @Import({ GenreDaoJdbc.class, GenreMapper.class })
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
@@ -34,11 +32,12 @@ public class GenreDaoJdbcTest {
 		int countBefore = genreDao.count();
 		genreDao.insert(genre);
 		assertEquals(countBefore + 1, genreDao.count());
+		assertNotNull(genreDao.getByName("humor"));
 	}
 
 	@Test
 	public void getById() {
-		Genre genre = genreDao.getById(2);
+		Genre genre = genreDao.getById(2L);
 		assertNotNull(genre);
 		assertEquals("horrors", genre.getName());
 	}
@@ -53,8 +52,9 @@ public class GenreDaoJdbcTest {
 	@Test
 	public void deleteById() {
 		int countBefore = genreDao.count();
-		genreDao.deleteById(4);
+		genreDao.deleteById(4L);
 		assertEquals(countBefore - 1, genreDao.count());
+		assertThrows(EmptyResultDataAccessException.class, () -> genreDao.getById(4L));
 	}
 	
 	@Test

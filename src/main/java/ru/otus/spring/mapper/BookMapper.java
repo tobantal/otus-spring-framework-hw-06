@@ -15,11 +15,11 @@ public class BookMapper implements RowMapper<Book> {
 
 	@Override
 	public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
-		final int id = rs.getInt("id");
+		final Long id = rs.getLong("id");
 		final String name = rs.getString("name");
-		final int author_id = rs.getInt("author_id");
+		final Long author_id = rs.getLong("author_id");
 		final String author = rs.getString("author");
-		final int genre_id = rs.getInt("genre_id");
+		final Long genre_id = rs.getLong("genre_id");
 		final String genre = rs.getString("genre");
 		return new Book(id, name, new Author(author_id, author), new Genre(genre_id, genre));
 	}

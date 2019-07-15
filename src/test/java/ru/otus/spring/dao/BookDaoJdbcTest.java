@@ -1,17 +1,17 @@
 package ru.otus.spring.dao;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +20,8 @@ import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.mapper.BookMapper;
 
-@RunWith(SpringRunner.class)
-@ActiveProfiles("test")
 @JdbcTest
-@Import({BookDaoJdbc.class, BookMapper.class })
+@Import({BookDaoJdbc.class, BookMapper.class})
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
 public class BookDaoJdbcTest {
 	
@@ -32,17 +30,20 @@ public class BookDaoJdbcTest {
 
 	@Test
 	public void testInsert() {
-		Author author = new Author(1, "Ivanov");
-		Genre genre = new Genre(1, "comics");
+		Author author = new Author(1L, "Ivanov");
+		Genre genre = new Genre(1L, "comics");
 		Book book = new Book("YoYo", author, genre);
 		int countBefore = bookDao.count();
 		bookDao.insert(book);
 		assertEquals(countBefore + 1, bookDao.count());
+		Book savedBook = bookDao.getByName("YoYo");
+		assertThat(savedBook.getAuthor()).isEqualToComparingFieldByField(author);
+		assertThat(savedBook.getGenre()).isEqualToComparingFieldByField(genre);
 	}
 	
 	@Test
 	public void testGetById() {
-		Book book = bookDao.getById(1);
+		Book book = bookDao.getById(1L);
 		assertNotNull(book);
 		assertEquals("Desert rose", book.getName());
 	}
@@ -57,8 +58,9 @@ public class BookDaoJdbcTest {
 	@Test
 	public void testDeleteById() {
 		int countBefore = bookDao.count();
-		bookDao.deleteById(3);
+		bookDao.deleteById(3L);
 		assertEquals(countBefore - 1, bookDao.count());
+		assertThrows(EmptyResultDataAccessException.class, () -> bookDao.getById(3L));		
 	}
 
 	@Test
@@ -66,7 +68,7 @@ public class BookDaoJdbcTest {
 		String name = "Desert rose";
 		Book book = bookDao.getByName(name);
 		assertNotNull(book);
-		assertEquals(1, book.getId());
+		assertThat(book.getId()).isEqualTo(1L);
 	}
 
 	@Test

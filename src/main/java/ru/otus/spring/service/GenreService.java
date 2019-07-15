@@ -10,7 +10,7 @@ public interface GenreService {
 	
 	int size();
 	
-	void deleteById(int id);
+	void deleteById(Long id);
 	
 	List<Genre> findAll();
 	

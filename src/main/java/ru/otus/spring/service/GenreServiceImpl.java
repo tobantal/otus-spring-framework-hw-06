@@ -1,37 +1,28 @@
 package ru.otus.spring.service;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentMap;
-import java.util.stream.Collectors;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import ru.otus.spring.dao.GenreDao;
 import ru.otus.spring.domain.Genre;
 
 @Service
+@RequiredArgsConstructor
 public class GenreServiceImpl implements GenreService {
-	
+
 	private final GenreDao genreDao;
-	private ConcurrentMap<String, Genre> genres;
-	
-	public GenreServiceImpl(GenreDao genreDao) {
-		super();
-		this.genreDao = genreDao;
-		genres = genreDao.getAll().stream().collect(Collectors.toConcurrentMap(Genre::getName, g->g));
-	}
 
 	@Override
 	public Genre createIfItIsNecessaryAndGet(String genre) {
-		Genre g;
-		if(genres.containsKey(genre)) {
-			g = genres.get(genre);
-		} else {
+		try {
+			return genreDao.getByName(genre);			
+		} catch(EmptyResultDataAccessException e) {
 			genreDao.insert(new Genre(genre));
-			g = genreDao.getByName(genre);
-			genres.put(genre, g);
+			return genreDao.getByName(genre);
 		}
-		return g;
 	}
 
 	@Override
@@ -40,9 +31,8 @@ public class GenreServiceImpl implements GenreService {
 	}
 
 	@Override
-	public void deleteById(int id) {
+	public void deleteById(Long id) {
 		genreDao.deleteById(id);
-		genres = genreDao.getAll().stream().collect(Collectors.toConcurrentMap(Genre::getName, g->g));
 	}
 
 	@Override

@@ -1,12 +1,9 @@
 package ru.otus.spring.service;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.InitializingBean;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -15,13 +12,11 @@ import ru.otus.spring.domain.Book;
 
 @RequiredArgsConstructor
 @Service
-public class BookServiceImpl implements BookService, InitializingBean {
+public class BookServiceImpl implements BookService {
 
 	private final BookDao bookDao;
 	private final GenreService genreService;
 	private final AuthorService authorService;
-
-	private ConcurrentMap<String, Book> books;
 
 	@Override
 	public int size() {
@@ -30,36 +25,31 @@ public class BookServiceImpl implements BookService, InitializingBean {
 
 	@Override
 	public Book findBookByName(String name) {
-		return books.get(name);
+		return bookDao.getByName(name);
 	}
 
 	@Override
-	public void addBook(String name, String author, String genre) {
-		if (books.containsKey(name)) {
-			throw new IllegalArgumentException("Book already exists");
-		} else {
+	public Book addBook(String name, String author, String genre) {		
+		try {
+			findBookByName(name);
+			String error = String.format("The book with the name <%s> already exists", name);
+			throw new PermissionDeniedDataAccessException(error, null);
+		} catch(EmptyResultDataAccessException e) {
 			Book book = new Book(name, authorService.createIfItIsNecessaryAndGet(author),
 					genreService.createIfItIsNecessaryAndGet(genre));
 			bookDao.insert(book);
-			books = bookDao.getAll().stream().collect(Collectors.toConcurrentMap(Book::getName, b -> b));
-			books.put(name, findBookByName(name));
+			return findBookByName(name);
 		}
 	}
 
 	@Override
-	public void deleteBookById(int id) {
+	public void deleteBookById(Long id) {
 		bookDao.deleteById(id);
-		books = bookDao.getAll().stream().collect(Collectors.toConcurrentMap(Book::getName, b -> b));
 	}
 
 	@Override
 	public List<Book> findAllBooks() {
 		return bookDao.getAll();
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		books = bookDao.getAll().stream().collect(Collectors.toConcurrentMap(Book::getName, b -> b));
 	}
 
 	@Override

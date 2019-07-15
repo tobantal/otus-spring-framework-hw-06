@@ -10,7 +10,7 @@ public interface AuthorService {
 	
 	int size();
 	
-	void deleteById(int id);
+	void deleteById(Long id);
 	
 	List<Author> findAll();
 	
