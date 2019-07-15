@@ -3,6 +3,7 @@ package ru.otus.spring.service;
 import java.util.List;
 
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,9 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public Book addBook(String name, String author, String genre) {		
 		try {
-			return findBookByName(name);
+			findBookByName(name);
+			String error = String.format("The book with the name <%s> already exists", name);
+			throw new PermissionDeniedDataAccessException(error, null);
 		} catch(EmptyResultDataAccessException e) {
 			Book book = new Book(name, authorService.createIfItIsNecessaryAndGet(author),
 					genreService.createIfItIsNecessaryAndGet(genre));
